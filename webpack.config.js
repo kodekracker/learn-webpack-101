@@ -2,10 +2,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
+const SRC_DIR = path.resolve(__dirname, 'src');
+const BUILD_DIR = path.resolve(__dirname, 'build');
+
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: BUILD_DIR,
     pathinfo: true,
     filename: 'bundle.js',
     chunkFilename: '[name].chunk.js',
@@ -14,12 +17,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        use: 'babel-loader'
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        include: SRC_DIR
       },
       {
         test: /\.css$/,
-        use: [
+        loaders: [
           'style-loader',
           'css-loader'
         ]
@@ -30,7 +34,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: './src/index.html',
+      template: './public/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -44,5 +48,8 @@ module.exports = {
         minifyURLs: true,
       }
     })
-  ]
+  ],
+  performance: {
+    hints: false,
+  }
 };
