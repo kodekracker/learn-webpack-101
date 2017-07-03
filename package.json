@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -p --progress --colors",
-    "watch": "webpack --progress --colors --watch",
-    "serve": "webpack-dev-server --progress --colors --watch --open"
+    "build": "webpack -p --colors",
+    "watch": "webpack --colors --watch",
+    "serve": "webpack-dev-server  --colors --watch --open"
   },
   "author": "",
   "license": "ISC",
@@ -15,8 +15,13 @@
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.5.2",
+    "css-loader": "^0.28.4",
     "html-webpack-plugin": "^2.29.0",
+    "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4"
   }
 }
