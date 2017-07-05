@@ -1,6 +1,7 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 const BUILD_DIR = path.resolve(__dirname, 'build');
@@ -9,7 +10,6 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: BUILD_DIR,
-    pathinfo: true,
     filename: 'bundle.js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
@@ -18,14 +18,25 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
-        include: SRC_DIR
+        include: SRC_DIR,
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,
+        include: SRC_DIR,
         loaders: [
-          'style-loader',
-          'css-loader'
+          {
+            loader: 'style-loader',
+            options: { attrs: { id: 'chatbot-stylesheet'}, singleton: true }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              minimize: true,
+              localIdentName: '[local]'
+            }
+          }
         ]
       }
     ]
