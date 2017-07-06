@@ -1,3 +1,6 @@
+import React, {Component} from 'react';
+import CSSModules from 'react-css-modules';
+import styles from './app.css';
 import React, {Component, PropTypes} from 'react';
 import IFrame from 'react-frame-component';
 import './app.css';
@@ -33,4 +36,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default CSSModules(App,styles);
