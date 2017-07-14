@@ -26,7 +26,12 @@ module.exports = {
         loaders: [
           {
             loader: 'style-loader',
-            options: { attrs: { id: 'chatbot-stylesheet'}, singleton: true }
+            options: {
+              attrs: {
+                id: 'chatbot-stylesheet'
+              },
+              singleton: true
+            }
           },
           {
             loader: 'css-loader',
