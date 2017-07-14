@@ -1,0 +1,19 @@
+@import "shared.css";
+
+:root {
+  --theme-color: magenta;
+}
+
+.theme-color {
+  background-color: var(--theme-color);
+}
+
+.intro {
+  color: aqua;
+  background-color: black;
+  font-size: '1.2em';
+}
+
+:fullscreen a {
+  display: flex
+}

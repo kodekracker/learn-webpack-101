@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import CSSModules from 'react-css-modules';
 import IFrame from 'react-frame-component';
-import styles from './app.css';
+import styles from './app.scss';
 
 function getFrameContent(cssStyle) {
   console.log("Loading iframe content");
@@ -24,7 +24,7 @@ class App extends Component {
     return (<div className="chatbot-app chatbot-app-launcher-enabled">
       <span></span>
       <IFrame initialContent={frameContent} className="chatbot-launcher-frame" allowFullScreen>
-        <div styleName="intro">React is working.</div>
+        <div styleName="intro">Css is working inside a Iframe.</div>
       </IFrame>
       <span></span>
     </div>);

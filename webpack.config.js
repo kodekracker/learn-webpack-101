@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const incstr = require('incstr');
+const autoprefixer = require('autoprefixer');
+
 const SRC_DIR = path.resolve(__dirname, 'src');
 const BUILD_DIR = path.resolve(__dirname, 'build');
 
@@ -42,20 +44,33 @@ const generateScopedName = (localName, resourcePath) => {
 };
 
 module.exports = {
+  devtool: 'cheap-module-source-map',
   entry: './src/index.js',
   output: {
     path: BUILD_DIR,
+    pathinfo: true,
     filename: 'bundle.js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
   },
   module: {
+    strictExportPresence: false,
     rules: [
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]',
+        },
+      },
       {
         test: /\.jsx?$/,
         include: SRC_DIR,
-        loader: 'babel-loader',
+        loader: require.resolve('babel-loader'),
         options: {
+          babelrc: false,
+          presets: [require.resolve('babel-preset-react-app')],
           plugins: [
             [
               'react-css-modules',
@@ -74,11 +89,11 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         include: SRC_DIR,
         loaders: [
           {
-            loader: 'style-loader',
+            loader: require.resolve('style-loader'),
             options: {
               attrs: {
                 id: 'chatbot-stylesheet'
@@ -87,7 +102,7 @@ module.exports = {
             }
           },
           {
-            loader: 'css-loader',
+            loader: require.resolve('css-loader'),
             options: {
               modules: true,
               importLoaders: 1,
@@ -100,9 +115,37 @@ module.exports = {
             }
           },
           {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                require('postcss-import'),
+                require('postcss-cssnext'),
+                require('postcss-flexbugs-fixes'),
+                autoprefixer({
+                  browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9', // React doesn't support IE8 anyway
+                  ],
+                  flexbox: 'no-2009',
+                })
+              ],
+            }
+          },
+          {
             loader: 'resolve-url-loader'
           }
         ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        include: SRC_DIR,
+        loader: 'file-loader',
+        query: {
+          name: '[path][name].[ext]'
+        }
       }
     ]
   },
