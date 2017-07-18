@@ -43,13 +43,15 @@ const generateScopedName = (localName, resourcePath) => {
   return uniqueIdGenerator(componentName) + '_' + uniqueIdGenerator(localName);
 };
 
-module.exports = {
+module.exports = [{
   devtool: 'cheap-module-source-map',
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js'
+  },
   output: {
     path: BUILD_DIR,
     pathinfo: true,
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
   },
@@ -150,25 +152,48 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: './public/index.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      }
-    })
+    new webpack.optimize.UglifyJsPlugin()
   ],
   performance: {
     hints: false,
   }
-};
+},
+  {
+    devtool: 'cheap-module-source-map',
+    entry: {
+      load: './src/load.js'
+    },
+    output: {
+      path: BUILD_DIR,
+      filename: '[name].bundle.js',
+      chunkFilename: '[name].chunk.js',
+      publicPath: '/'
+    },
+    module: {
+      strictExportPresence: false,
+      rules: [
+      ]
+    },
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin(),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: './public/index.html',
+        minify: {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeRedundantAttributes: true,
+          useShortDoctype: true,
+          removeEmptyAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          keepClosingSlash: true,
+          minifyJS: true,
+          minifyCSS: true,
+          minifyURLs: true,
+        }
+      })
+    ],
+    performance: {
+      hints: false,
+    }
+  }];

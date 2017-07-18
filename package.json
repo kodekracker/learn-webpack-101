@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "NODE_ENV=production webpack -p --progress --colors",
-    "start": "NODE_ENV=development webpack-dev-server --progress --colors --watch --open --config ./webpack.config.js"
+    "build": "NODE_ENV=production webpack --progress --colors",
+    "start": "NODE_ENV=development webpack-dev-server --progress --colors --watch --open --config ./webpack.config.js --port 4000"
   },
   "author": "",
   "license": "ISC",
@@ -35,6 +35,6 @@
     "react": "^15.6.1",
     "react-css-modules": "^4.5.2",
     "react-dom": "^15.6.1",
-    "react-frame-component": "^1.1.0"
+    "react-frame-component": "^1.1.1"
   }
 }
